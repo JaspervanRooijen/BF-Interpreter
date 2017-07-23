@@ -34,20 +34,70 @@ function parseBF(code) {
 				} index++;
 				break;
 			case 'b':
+				curr_cell.val = 0;
 				break;
 			case '+':
+				if (Number.isInteger(curr_cell.val)) {
+					curr_cell.val += 1;
+				} else {
+					console.log("Cell " + curr_cell + " is not the primitive type b (byte)");
+				}
 				break;
 			case '-':
+				if (Number.isInteger(curr_cell.val)) {
+					curr_cell.val -= 1;
+				} else {
+					console.log("Cell " + curr_cell + " is not the primitive type b (byte)");
+				}
 				break;
 			case '|':
+				index++;
+				curr_cell = code[index].charCodeAt(0);
 				break;
 			case '.':
+				if (Number.isInteger(curr_cell.val)) {
+					console.log(String.fromCharCode(curr_cell.val));
+				} else {
+					console.log("Cell " + curr_cell + " is not the primitive type b (byte)");
+				}
 				break;
 			case ',':
+				var new_val = prompt("Enter value:");
+				curr_cell.val = new_val;
 				break;
 			case '[':
+				if (Number.isInteger(curr_cell.val)) {
+					check_value = index;
+					loop_code = [];
+					index++;
+					while (code[index] != ']') {
+						loop_code.push(code[index]);
+						index++;
+					}
+					while (check_value != 0) {
+						parseBF(loop_code);
+					}
+					index++;
+				} else {
+					console.log("Loop entered on a non-byte");
+				}
 				break;
 			case '(':
+				if (Number.isInteger(curr_cell.val)) {
+					check_value = index;
+					loop_code = [];
+					index++;
+					while (code[index] != ')') {
+						loop_code.push(code[index]);
+						index++;
+					}
+					if (check_value == 0) {
+						parseBF(loop_code);
+					}
+					index++;
+				} else {
+					console.log("Loop entered on a non-byte");
+				}
 				break;
 			case '^':
 				break;
